@@ -8,7 +8,7 @@
             <h1 class="text-3xl font-bold text-primary">Tickets</h1>
             <p class="text-secondary mt-2">Gérez vos tickets de support</p>
         </div>
-        <a href="{{ route('tickets.create') }}" 
+        <a href="{{ route('tickets.create') }}"
         <button class="bg-mint text-primary px-6 py-2 rounded-lg hover:bg-mint-light transition duration-150 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
             <i class="fas fa-plus mr-2"></i>Nouveau Ticket
         </button>
@@ -29,8 +29,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Rechercher</label>
                     <div class="relative">
-                        <input type="text" 
-                               name="search" 
+                        <input type="text"
+                               name="search"
                                value="{{ request('search') }}"
                                class="block w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-mint focus:border-mint"
                                placeholder="Rechercher un ticket...">
@@ -43,7 +43,7 @@
                 <!-- Status Filter -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
-                    <select name="status" 
+                    <select name="status"
                             class="block w-full pl-3 pr-10 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-mint focus:border-mint appearance-none">
                         <option value="">Tous les statuts</option>
                         <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Ouvert</option>
@@ -55,7 +55,7 @@
                 <!-- Priority Filter -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Priorité</label>
-                    <select name="priority" 
+                    <select name="priority"
                             class="block w-full pl-3 pr-10 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-mint focus:border-mint appearance-none">
                         <option value="">Toutes les priorités</option>
                         <option value="low" {{ request('priority') == 'low' ? 'selected' : '' }}>Basse</option>
@@ -67,7 +67,7 @@
                 <!-- Assigned To Filter -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Assigné à</label>
-                    <select name="assigned_to" 
+                    <select name="assigned_to"
                             class="block w-full pl-3 pr-10 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-mint focus:border-mint appearance-none">
                         <option value="">Tous les utilisateurs</option>
                         @foreach($users ?? [] as $user)
@@ -81,12 +81,12 @@
 
             <!-- Filter Actions -->
             <div class="flex justify-end space-x-3">
-                <button type="submit" 
+                <button type="submit"
                         class="bg-mint text-primary px-6 py-2 rounded-lg hover:bg-mint-light transition duration-150 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                     <i class="fas fa-filter"></i>
                     <span>Appliquer les filtres</span>
                 </button>
-                <a href="{{ route('tickets.index') }}" 
+                <a href="{{ route('tickets.index') }}"
                    class="border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-lg transition duration-150">
                     Réinitialiser
                 </a>
@@ -122,8 +122,8 @@
                                 {{ $ticket->title }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                    {{ $ticket->priority === 'high' ? 'bg-red-100 text-red-800' : 
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                    {{ $ticket->priority === 'high' ? 'bg-red-100 text-red-800' :
                                        ($ticket->priority === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800') }}">
                                     {{ ucfirst($ticket->priority) }}
                                 </span>
@@ -134,33 +134,29 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 {{ $ticket->software->name }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <img class="h-8 w-8 rounded-full border-2 border-mint" 
-                                         src="https://ui-avatars.com/api/?name={{ urlencode($ticket->user->name) }}&background=05BFDB&color=0A4D68" 
-                                         alt="{{ $ticket->user->name }}">
-                                    <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{ $ticket->user->name }}
-                                        </div>
-                                    </div>
+                                    <img src="https://ui-avatars.com/api/?name={{$ticket->user->lastName}}+{{$ticket->user->firstName}}&background=05BFDB&color=0A4D68"
+                                        alt="Developer" class="w-8 h-8 rounded-full border-2 border-mint">
+                                    <span class="ml-2 text-sm text-gray-700">{{$ticket->user->lastName}} {{$ticket->user->firstName}}</span>
                                 </div>
                             </td>
+                            
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $ticket->created_at->format('Y-m-d H:i') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end space-x-2">
-                                    <a href="{{ route('tickets.show', $ticket->id) }}" 
+                                    <a href="{{ route('tickets.show', $ticket->id) }}"
                                        class="text-mint hover:text-secondary">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('tickets.edit', $ticket->id) }}" 
+                                    <a href="{{ route('tickets.edit', $ticket->id) }}"
                                        class="text-mint hover:text-secondary">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ route('tickets.destroy', $ticket->id) }}" 
-                                          method="POST" 
+                                    <form action="{{ route('tickets.destroy', $ticket->id) }}"
+                                          method="POST"
                                           class="inline"
                                           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce ticket?')">
                                         @csrf
@@ -182,7 +178,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Pagination -->
         <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
             {{ $tickets->links() }}

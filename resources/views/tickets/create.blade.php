@@ -118,15 +118,14 @@
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
-
             <!-- User Information (Auto-filled) -->
             <div class="bg-gray-50 p-4 rounded-lg">
                 <div class="flex items-center">
-                    <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=05BFDB&color=0A4D68" 
+                    <img src="https://ui-avatars.com/api/?name={{ auth()->user()->lastName}}&{{ auth()->user()->firstName}}&background=05BFDB&color=0A4D68" 
                          alt="{{ auth()->user()->name }}" 
                          class="w-10 h-10 rounded-full border-2 border-mint">
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-primary">Créé par: {{ auth()->user()->name }}</p>
+                        <p class="text-sm font-medium text-primary">Créé par: {{ auth()->user()->lastName}} {{ auth()->user()->firstName}}</p>
                         <p class="text-xs text-gray-500">{{ now()->format('Y-m-d H:i:s') }} UTC</p>
                     </div>
                 </div>

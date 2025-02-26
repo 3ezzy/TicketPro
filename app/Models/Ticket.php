@@ -23,7 +23,7 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    
     public function software()
     {
         return $this->belongsTo(Software::class);

@@ -47,3 +47,10 @@
                     <div class="mb-3">
                         <strong>Last Updated:</strong>
                         <p>{{ $ticket->updated_at->format('Y-m-d H:i:s') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

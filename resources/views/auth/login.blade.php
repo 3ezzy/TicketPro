@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 
 @section('title', 'TicketFlow - Connexion')
 
@@ -50,13 +50,13 @@
                             <i class="fas fa-user text-gray-400"></i>
                         </div>
                         <input type="text" 
-                               name="login" 
-                               class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-mint focus:border-mint @error('login') border-red-500 @enderror"
+                               name="email" 
+                               class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-mint focus:border-mint @error('email') border-red-500 @enderror"
                                placeholder="Email ou nom d'utilisateur"
-                               value="{{ old('login') }}"
+                               value="{{ old('email') }}"
                                required>
                     </div>
-                    @error('login')
+                    @error('email')
                         <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
                     @enderror
                 </div>

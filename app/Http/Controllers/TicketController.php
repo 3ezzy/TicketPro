@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\Software;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -42,7 +43,7 @@ class TicketController extends Controller
             'software_id' => 'required|exists:software,id'
         ]);
 
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = Auth::user()->id;
 
         Ticket::create($validated);
 
@@ -72,23 +73,29 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Ticket $ticket)
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
+        // Validate the request data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
             'priority' => 'required|in:low,medium,high',
-            'os' => 'required',
-            'software_id' => 'required|exists:software,id'
+            'os' => 'required|in:windows,macos,linux,ios,android',
+            'software_id' => 'required|exists:software,id',
         ]);
 
-        $ticket = Ticket::findOrFail($id);
-        $ticket->update($validated);
+        // Update the ticket
+        $ticket->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'priority' => $request->priority,
+            'os' => $request->os,
+            'software_id' => $request->software_id,
+        ]);
 
-        return redirect()->route('tickets.index')
-            ->with('success', 'Ticket updated successfully.');
+        // Redirect back with success message
+        return redirect()->route('tickets.index')->with('success', 'Le ticket a été mis à jour avec succès.');
     }
-
     /**
      * Remove the specified resource from storage.
      */

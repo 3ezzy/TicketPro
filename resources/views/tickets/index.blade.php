@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+
     <!-- Advanced Filter Section -->
     <div class="bg-white rounded-xl shadow-lg mb-8 p-6">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold text-primary">Gestion des Tickets</h2>
-            <button class="bg-mint text-primary px-6 py-2 rounded-lg hover:bg-mint-light transition duration-150 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+            <a href="{{ route('tickets.create') }}" class="bg-mint text-primary px-6 py-2 rounded-lg hover:bg-mint-light transition duration-150 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                 <i class="fas fa-plus mr-2"></i>Nouveau Ticket
-            </button>
+            </a>
         </div>
 
         <!-- Filter Grid -->
@@ -150,18 +151,22 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex space-x-3">
-                            <button class="text-mint hover:text-primary transition duration-150" 
+                            <a href="{{ route('tickets.edit', 1) }}" class="text-mint hover:text-primary transition duration-150" 
                                     title="Éditer">
                                 <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="text-secondary hover:text-primary transition duration-150"
+                            </a>
+                            <a href="{{ route('tickets.show', 1) }}" class="text-secondary hover:text-primary transition duration-150"
                                     title="Voir les détails">
                                 <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="text-red-500 hover:text-red-700 transition duration-150"
-                                    title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            </a>
+                            <form action="{{ route('tickets.destroy', 1) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 hover:text-red-700 transition duration-150"
+                                        title="Supprimer">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>

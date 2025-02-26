@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description'); // Description of the ticket
             $table->enum('priority', ['low', 'medium', 'high'])->default('medium'); // Priority level
             $table->string('os'); // Operating system
+            $table->enum('status', ['open', 'in_progress', 'closed'])->default('open'); // Status of the ticket
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key to users table
             $table->foreignId('software_id')->constrained()->onDelete('cascade'); // Foreign key to software table
             $table->timestamps(); // Created at and updated at timestamps

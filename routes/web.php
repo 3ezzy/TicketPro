@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\AssignmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,6 +39,31 @@ Route::middleware('auth')->group(function () {
 
     // Delete a specific ticket
     Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy'])->name('tickets.destroy');
+
+    // Display all assignments
+    Route::get('/assignments', [AssignmentController::class, 'index'])->name('assignments.index');
+    
+    // Show the form to assign a ticket
+    Route::post('/assignments/create/{ticket}', [AssignmentController::class, 'create'])->name('assignments.create');
+    
+    // Store a new assignment (Assign a developer to a ticket)
+    Route::post('/assignments', [AssignmentController::class, 'store'])->name('assignments.store');
+    
+    // Show a specific assignment
+    Route::get('/assignments/{assignment}', [AssignmentController::class, 'show'])->name('assignments.show');
+    
+    // Edit an assignment
+    Route::get('/assignments/{assignment}/edit', [AssignmentController::class, 'edit'])->name('assignments.edit');
+    
+    // Update an assignment (Reassign ticket)
+    Route::put('/assignments/{assignment}', [AssignmentController::class, 'update'])->name('assignments.update');
+    
+    // Delete an assignment (Unassign a developer)
+    Route::delete('/assignments/{assignment}', [AssignmentController::class, 'destroy'])->name('assignments.destroy');
+    
+    // Quick Assign Route (From Tickets Page)
+    Route::post('/assign-ticket/{ticket}', [AssignmentController::class, 'assign'])->name('assignments.quick_assign');
+    
 });
 
 

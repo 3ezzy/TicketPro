@@ -46,10 +46,7 @@
                     </div>
                 </div>
                 
-                <!-- Settings -->
-                <button class="p-2 rounded-full hover:bg-secondary transition duration-150">
-                    <i class="fas fa-cog text-mint"></i>
-                </button>
+                
             </div>
         </div>
     </div>

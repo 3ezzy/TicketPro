@@ -1,4 +1,4 @@
-@extends('guest-layout')
+@extends('layouts.app')
 
 @section('title', 'TicketFlow - Connexion')
 

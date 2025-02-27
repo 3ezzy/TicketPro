@@ -119,9 +119,9 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex space-x-3">
-                                <button class="text-secondary hover:text-primary transition duration-150">
+                                {{-- <button class="text-secondary hover:text-primary transition duration-150">
                                     <i class="fas fa-edit"></i>
-                                </button>
+                                </button> --}}
                                 <button class="text-mint hover:text-primary transition duration-150">
                                     <i class="fas fa-check-circle"></i>
                                 </button>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Assignment; // Ensure this model exists in the specified namespace
@@ -16,30 +17,33 @@ class AssignmentController extends Controller
     }
 
     // Show the form for assigning a developer to a ticket
-    public function create($id)
+    public function create($ticketId)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::findOrFail($ticketId);
         $developers = User::where('role', 'developer')->get();
-        return view('assignments.create', compact('tickets', 'developers'));
+
+        return view('assignments.create', compact('ticket', 'developers'));
     }
 
     // Store a new assignment
     public function store(Request $request)
     {
-        $request->validate([
-            'ticket_id' => 'required|exists:tickets,id',
-            'developer_id' => 'required|exists:users,id'
-        ]);
+        // Validate and store the assignment
+    // Assuming you have an Assignment model
+    $validated = $request->validate([
+        'ticket_info' => 'required',
+        'developer_id' => 'required|exists:users,id',
+    ]);
 
-        Assignment::create([
-            'ticket_id' => $request->ticket_id,
-            'developer_id' => $request->developer_id
-        ]);
+    $assignment = new Assignment();
+    $assignment->ticket_id = $request->ticket_id;
+    $assignment->developer_id = $request->developer_id;
+    $assignment->save();
 
-        return redirect()->route('tickets.index')->with('success', 'Ticket assigned successfully.');
+    return redirect()->route('assignments.index')->with('success', 'Developer assigned successfully.');
     }
 
-   
+
     // Show an assignment
     public function show(Assignment $assignment)
     {

@@ -122,9 +122,9 @@
                                 {{-- <button class="text-secondary hover:text-primary transition duration-150">
                                     <i class="fas fa-edit"></i>
                                 </button> --}}
-                                <button class="text-mint hover:text-primary transition duration-150">
+                                <a href="{{ route('assignments.create', $ticket->id) }}" class="text-mint hover:text-primary transition duration-150">
                                     <i class="fas fa-check-circle"></i>
-                                </button>
+                                </a>
                                 <button class="text-red-500 hover:text-red-700 transition duration-150">
                                     <i class="fas fa-trash"></i>
                                 </button>

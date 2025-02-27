@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/assignments', [AssignmentController::class, 'index'])->name('assignments.index');
     
     // Show the form to assign a ticket
-    Route::post('/assignments/create/{ticket}', [AssignmentController::class, 'create'])->name('assignments.create');
+    Route::get('/assignments/create/{ticket}', [AssignmentController::class, 'create'])->name('assignments.create');
     
     // Store a new assignment (Assign a developer to a ticket)
     Route::post('/assignments', [AssignmentController::class, 'store'])->name('assignments.store');

@@ -90,7 +90,7 @@
                         <td class="px-6 py-4 text-sm text-gray-700">{{ $ticket->title }}</td>
                         <td class="px-6 py-4 text-sm">
                             <div class="flex items-center">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($ticket->user->name) }}&background=05BFDB&color=0A4D68"
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($ticket->user->firstName . ' ' . $ticket->user->lastName) }}&background=05BFDB&color=0A4D68"
                                     alt="Client" class="w-8 h-8 rounded-full border-2 border-mint">
                                 <span class="ml-2 text-sm text-gray-700">{{ $ticket->user->name }}</span>
                             </div>

@@ -7,10 +7,6 @@
             <h2 class="text-3xl font-bold text-primary">Tableau de bord</h2>
             <p class="text-secondary">Vue d'ensemble des tickets et affectations</p>
         </div>
-        <button
-            class="bg-mint text-primary px-6 py-2 rounded-lg hover:bg-mint-light transition duration-150 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-            <i class="fas fa-plus mr-2"></i>Nouveau Ticket
-        </button>
     </div>
 
     <!-- Statistics Cards -->
@@ -82,12 +78,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Client</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Logiciel</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">OS</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Priorité
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Statut
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Actions
-                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Priorité</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Statut</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -105,29 +98,23 @@
                         <td class="px-6 py-4 text-sm text-gray-700">{{ $ticket->software->name ?? 'N/A' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-700">{{ $ticket->os }}</td>
                         <td class="px-6 py-4">
-                            @if($ticket->priority == 'urgent')
+                            @if($ticket->priority == 'high')
                                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Urgent</span>
-                            @elseif($ticket->priority == 'high')
-                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800">Élevée</span>
                             @elseif($ticket->priority == 'medium')
-                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Moyenne</span>
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800">Élevée</span>
                             @else
                                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Faible</span>
                             @endif
                         </td>
                         <td class="px-6 py-4">
-                            @if(isset($ticket->status))
-                                @if($ticket->status == 'open')
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Ouvert</span>
-                                @elseif($ticket->status == 'in_progress')
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-mint bg-opacity-20 text-secondary">En cours</span>
-                                @elseif($ticket->status == 'resolved')
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Résolu</span>
-                                @else
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">{{ $ticket->status }}</span>
-                                @endif
-                            @else
+                            @if($ticket->status == 'open')
                                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Ouvert</span>
+                            @elseif($ticket->status == 'in_progress')
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-mint bg-opacity-20 text-secondary">En cours</span>
+                            @elseif($ticket->status == 'closed')
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Résolu</span>
+                            @else
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">{{ $ticket->status }}</span>
                             @endif
                         </td>
                         <td class="px-6 py-4">
@@ -155,16 +142,5 @@
                 </tbody>
             </table>
         </div>
-        <!-- Pagination -->
-        {{-- <div class="p-4 border-t border-gray-100">
-            <div class="flex items-center justify-between">
-                <p class="text-sm text-gray-600">
-                    Affichage {{ $clientTickets->firstItem() ?? 0 }}-{{ $clientTickets->lastItem() ?? 0 }} sur {{ $clientTickets->total() ?? 'N/A' }} tickets
-                </p>
-                <div class="flex space-x-2">
-                    {{ $clientTickets->links() }}
-                </div>
-            </div>
-        </div> --}}
     </div>
 @endsection

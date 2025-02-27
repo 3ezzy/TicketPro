@@ -13,13 +13,12 @@ class TicketController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-
-        $tickets = Ticket::with(['user', 'software'])
-            ->latest()
-            ->paginate(10);
-        return view('tickets.index', compact('tickets'));
-    }
+{
+    $tickets = Ticket::with(['user', 'software'])
+        ->latest()
+        ->paginate(10);
+    return view('tickets.index', compact('tickets'));
+}
 
     /**
      * Show the form for creating a new resource.

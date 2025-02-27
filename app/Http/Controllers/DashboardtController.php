@@ -12,28 +12,28 @@ class DashboardtController extends Controller
      */
     public function index()
     {
+        // Fetch total tickets
         $totalTickets = Ticket::count();
-        $resolvedTickets = Ticket::where('status', 'resolved')->count();
-        $pendingTickets = Ticket::whereIn('status', ['open', 'pending'])->count();
-        $urgentTickets = Ticket::where('priority', 'urgent')->count();
-        
-        // Get client tickets, sorted by most recent
-        $clientTickets = Ticket::fromClients()
-            ->with(['user', 'software']) // Eager load relationships
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-            
-        // Get total number for pagination info
-        $totalClientTickets = Ticket::fromClients()->count();
-        
-        return view('dashboard', compact(
-            'totalTickets', 
-            'resolvedTickets', 
-            'pendingTickets', 
-            'urgentTickets',
-            'clientTickets',
-            'totalClientTickets'
-        ));
+
+        // Fetch resolved tickets
+        $resolvedTickets = Ticket::where('status', 'closed')->count();
+
+        // Fetch pending tickets
+        $pendingTickets = Ticket::where('status', 'open')->orWhere('status', 'in_progress')->count();
+
+        // Fetch urgent tickets
+        $urgentTickets = Ticket::where('priority', 'high')->count();
+
+        // Fetch client tickets with related user and software data
+        $clientTickets = Ticket::with(['user', 'software'])->get();
+
+        return view('dashboard', [
+            'totalTickets' => $totalTickets,
+            'resolvedTickets' => $resolvedTickets,
+            'pendingTickets' => $pendingTickets,
+            'urgentTickets' => $urgentTickets,
+            'clientTickets' => $clientTickets,
+        ]);
     }
 
     /**

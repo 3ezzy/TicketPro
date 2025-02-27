@@ -125,7 +125,7 @@
                          alt="{{ auth()->user()->name }}" 
                          class="w-10 h-10 rounded-full border-2 border-mint">
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-primary">Créé par: {{ auth()->user()->lastName}} {{ auth()->user()->firstName}}</p>
+                        <p class="text-sm font-medium text-primary">Créé par: 2</p>
                         <p class="text-xs text-gray-500">{{ now()->format('Y-m-d H:i:s') }} UTC</p>
                     </div>
                 </div>

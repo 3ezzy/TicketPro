@@ -22,7 +22,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-gray-500 text-sm">Total Tickets</h3>
-                    <p class="text-2xl font-bold text-primary">248</p>
+                    <p class="text-2xl font-bold text-primary">{{ $totalTickets ?? 'N/A' }}</p>
                     <span class="text-xs text-mint">+12% ce mois</span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-gray-500 text-sm">Tickets Résolus</h3>
-                    <p class="text-2xl font-bold text-primary">156</p>
+                    <p class="text-2xl font-bold text-primary">{{ $resolvedTickets ?? 'N/A' }}</p>
                     <span class="text-xs text-mint">+8% ce mois</span>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-gray-500 text-sm">En Attente</h3>
-                    <p class="text-2xl font-bold text-primary">54</p>
+                    <p class="text-2xl font-bold text-primary">{{ $pendingTickets ?? 'N/A' }}</p>
                     <span class="text-xs text-mint">-5% ce mois</span>
                 </div>
             </div>
@@ -61,17 +61,17 @@
                 </div>
                 <div class="ml-4">
                     <h3 class="text-gray-500 text-sm">Urgents</h3>
-                    <p class="text-2xl font-bold text-primary">38</p>
+                    <p class="text-2xl font-bold text-primary">{{ $urgentTickets ?? 'N/A' }}</p>
                     <span class="text-xs text-mint">-2% ce mois</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Tickets Table -->
+    <!-- Client Tickets Table -->
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <div class="p-6 border-b border-gray-100">
-            <h3 class="text-xl font-semibold text-primary">Tickets Récents</h3>
+            <h3 class="text-xl font-semibold text-primary">Tickets Créés par Clients</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -79,34 +79,56 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Titre</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Client</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Logiciel</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">OS</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Priorité
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Statut
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">
-                            Développeur</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Actions
                         </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
+                    @forelse($clientTickets ?? [] as $ticket)
                     <tr class="hover:bg-gray-50 transition duration-150">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary font-medium">#1234</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">Bug dans le module de paiement</td>
-                        <td class="px-6 py-4">
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Urgent</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span
-                                class="px-3 py-1 text-xs font-semibold rounded-full bg-mint bg-opacity-20 text-secondary">En
-                                cours</span>
-                        </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary font-medium">#{{ $ticket->id }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">{{ $ticket->title }}</td>
+                        <td class="px-6 py-4 text-sm">
                             <div class="flex items-center">
-                                <img src="https://ui-avatars.com/api/?name=John+Doe&background=05BFDB&color=0A4D68"
-                                    alt="Developer" class="w-8 h-8 rounded-full border-2 border-mint">
-                                <span class="ml-2 text-sm text-gray-700">John Doe</span>
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($ticket->user->name) }}&background=05BFDB&color=0A4D68"
+                                    alt="Client" class="w-8 h-8 rounded-full border-2 border-mint">
+                                <span class="ml-2 text-sm text-gray-700">{{ $ticket->user->name }}</span>
                             </div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-700">{{ $ticket->software->name ?? 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">{{ $ticket->os }}</td>
+                        <td class="px-6 py-4">
+                            @if($ticket->priority == 'urgent')
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Urgent</span>
+                            @elseif($ticket->priority == 'high')
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800">Élevée</span>
+                            @elseif($ticket->priority == 'medium')
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Moyenne</span>
+                            @else
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Faible</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            @if(isset($ticket->status))
+                                @if($ticket->status == 'open')
+                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Ouvert</span>
+                                @elseif($ticket->status == 'in_progress')
+                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-mint bg-opacity-20 text-secondary">En cours</span>
+                                @elseif($ticket->status == 'resolved')
+                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Résolu</span>
+                                @else
+                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">{{ $ticket->status }}</span>
+                                @endif
+                            @else
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Ouvert</span>
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex space-x-3">
@@ -122,32 +144,27 @@
                             </div>
                         </td>
                     </tr>
-                    <!-- Add more rows as needed -->
+                    @empty
+                    <tr>
+                        <td colspan="8" class="px-6 py-10 text-center text-gray-500">
+                            <i class="fas fa-ticket-alt text-mint text-xl mb-3 block"></i>
+                            <p>Aucun ticket client trouvé</p>
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
         <!-- Pagination -->
-        <div class="p-4 border-t border-gray-100">
+        {{-- <div class="p-4 border-t border-gray-100">
             <div class="flex items-center justify-between">
                 <p class="text-sm text-gray-600">
-                    Affichage 1-10 sur 248 tickets
+                    Affichage {{ $clientTickets->firstItem() ?? 0 }}-{{ $clientTickets->lastItem() ?? 0 }} sur {{ $clientTickets->total() ?? 'N/A' }} tickets
                 </p>
                 <div class="flex space-x-2">
-                    <button
-                        class="px-3 py-1 rounded-md bg-gray-100 text-primary hover:bg-mint-light transition duration-150">
-                        Précédent
-                    </button>
-                    <button class="px-3 py-1 rounded-md bg-primary text-white">1</button>
-                    <button
-                        class="px-3 py-1 rounded-md bg-gray-100 text-primary hover:bg-mint-light transition duration-150">2</button>
-                    <button
-                        class="px-3 py-1 rounded-md bg-gray-100 text-primary hover:bg-mint-light transition duration-150">3</button>
-                    <button
-                        class="px-3 py-1 rounded-md bg-gray-100 text-primary hover:bg-mint-light transition duration-150">
-                        Suivant
-                    </button>
+                    {{ $clientTickets->links() }}
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

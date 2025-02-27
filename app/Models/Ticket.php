@@ -28,4 +28,11 @@ class Ticket extends Model
     {
         return $this->belongsTo(Software::class);
     }
+
+    public function scopeFromClients($query)
+    {
+        return $query->whereHas('user', function($q) {
+            $q->where('role', 'client');
+        });
+    }
 }

@@ -19,12 +19,27 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Ticket Information
                 </label>
-                <input type="text" 
-                       name="ticket_info" 
-                       id="ticket_info"
-                       value="{{ $ticket->title }} - {{ $ticket->description }}" 
-                       readonly
-                       class="block w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">
+                <div class="mb-4">
+                    <label for="ticket_title" class="block text-sm font-medium text-gray-700 mb-2">
+                        Ticket Title
+                    </label>
+                    <input type="text" 
+                           name="ticket_title" 
+                           id="ticket_title"
+                           value="{{ $ticket->title }}" 
+                           readonly
+                           class="block w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">
+                </div>
+                <div>
+                    <label for="ticket_description" class="block text-sm font-medium text-gray-700 mb-2">
+                        Ticket Description
+                    </label>
+                    <textarea name="ticket_description" 
+                              id="ticket_description"
+                              readonly
+                              class="block w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">{{ $ticket->description }}</textarea>
+                </div>
+                   
             </div>
 
             <!-- Developer Selection -->

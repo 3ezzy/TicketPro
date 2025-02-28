@@ -29,18 +29,17 @@ class AssignmentController extends Controller
     public function store(Request $request)
     {
         // Validate and store the assignment
-    // Assuming you have an Assignment model
-    $validated = $request->validate([
-        'ticket_info' => 'required',
-        'developer_id' => 'required|exists:users,id',
-    ]);
-
-    $assignment = new Assignment();
-    $assignment->ticket_id = $request->ticket_id;
-    $assignment->developer_id = $request->developer_id;
-    $assignment->save();
-
-    return redirect()->route('assignments.index')->with('success', 'Developer assigned successfully.');
+        $validated = $request->validate([
+            'ticket_id' => 'required|exists:tickets,id',
+            'developer_id' => 'required|exists:users,id',
+        ]);
+    
+        $assignment = new Assignment();
+        $assignment->ticket_id = $request->ticket_id;
+        $assignment->developer_id = $request->developer_id;
+        $assignment->save();
+    
+        return redirect()->route('assignments.index')->with('success', 'Developer assigned successfully.');
     }
 
 
@@ -60,13 +59,15 @@ class AssignmentController extends Controller
     // Update an assignment
     public function update(Request $request, Assignment $assignment)
     {
-        $request->validate([
-            'developer_id' => 'required|exists:users,id'
+        $validated = $request->validate([
+            'ticket_info' => 'required',
+            'developer_id' => 'required|exists:users,id',
         ]);
-
-        $assignment->update([
-            'developer_id' => $request->developer_id
-        ]);
+        
+        $assignment = new Assignment();
+        $assignment->ticket_id = $request->ticket_id;
+        $assignment->developer_id = $request->developer_id;
+        $assignment->save();
 
         return redirect()->route('assignments.index')->with('success', 'Assignment updated successfully.');
     }

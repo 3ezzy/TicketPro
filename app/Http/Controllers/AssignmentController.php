@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assignment; // Ensure this model exists in the specified namespace
+use App\Models\Assignment;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,8 +20,9 @@ class AssignmentController extends Controller
     public function create($ticketId)
     {
         $ticket = Ticket::findOrFail($ticketId);
+        // Changed 'Développeur' to 'developer' to match the database value
         $developers = User::where('role', 'developer')->get();
-
+        
         return view('assignments.create', compact('ticket', 'developers'));
     }
 
@@ -42,7 +43,6 @@ class AssignmentController extends Controller
         return redirect()->route('assignments.index')->with('success', 'Developer assigned successfully.');
     }
 
-
     // Show an assignment
     public function show(Assignment $assignment)
     {
@@ -52,7 +52,7 @@ class AssignmentController extends Controller
     // Edit an assignment
     public function edit(Assignment $assignment)
     {
-        $developers = User::where('role', 'developer')->get();
+        $developers = User::where('role', 'Développeur')->get(); // Updated to match your database value
         return view('assignments.edit', compact('assignment', 'developers'));
     }
 

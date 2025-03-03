@@ -12,7 +12,12 @@ class Assignment extends Model
     protected $fillable = [
         'ticket_id',
         'developer_id',
-        'admin_id',
+        'assigned_by',
+        'assigned_at'
+    ];
+
+    protected $casts = [
+        'assigned_at' => 'datetime'
     ];
 
     // Relationship to the Ticket model
@@ -31,5 +36,10 @@ class Assignment extends Model
     public function admin()
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    public function assignedBy()
+    {
+        return $this->belongsTo(User::class, 'assigned_by');
     }
 }

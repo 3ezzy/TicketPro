@@ -33,7 +33,6 @@
                         <textarea name="ticket_description" id="ticket_description" readonly
                             class="block w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">{{ $ticket->description }}</textarea>
                     </div>
-
                 </div>
 
                 <!-- Developer Selection -->
@@ -57,21 +56,16 @@
                     @error('developer_id')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
-
-                    <!-- Add this for debugging -->
-                    @if (count($developers) === 0)
-                        <p class="text-red-500 text-sm mt-1">No developers found in the database.</p>
-                    @endif
                 </div>
 
                 <!-- Assignment Info -->
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <div class="flex items-center">
-                        <img src="https://ui-avatars.com/api/?name=3ezzy&background=05BFDB&color=0A4D68" alt="3ezzy"
-                            class="w-10 h-10 rounded-full border-2 border-mint">
+                        <img src="https://ui-avatars.com/api/?name={{ auth()->user()->username }}&background=05BFDB&color=0A4D68"
+                            alt="{{ auth()->user()->username }}" class="w-10 h-10 rounded-full border-2 border-mint">
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-primary">Assigned by: 3ezzy</p>
-                            <p class="text-xs text-gray-500">2025-02-28 15:21:08 UTC</p>
+                            <p class="text-sm font-medium text-primary">Assigned by: {{ auth()->user()->username }}</p>
+                            <p class="text-xs text-gray-500">{{ now()->format('Y-m-d H:i:s') }} UTC</p>
                         </div>
                     </div>
                 </div>
@@ -83,34 +77,12 @@
                         <i class="fas fa-user-plus"></i>
                         <span>Assign Developer</span>
                     </button>
-                    <a href="{{ route('assignments.index') }}"
+                    <a href="{{ route('tickets.index') }}"
                         class="px-6 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-150">
                         Cancel
                     </a>
                 </div>
             </form>
-        </div>
-
-        <!-- Help Section -->
-        <div class="mt-8 bg-mint bg-opacity-10 rounded-xl p-6">
-            <h3 class="text-lg font-semibold text-primary mb-4">
-                <i class="fas fa-lightbulb text-mint mr-2"></i>
-                Tips for Assigning Tickets
-            </h3>
-            <ul class="space-y-2 text-secondary">
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-mint mt-1 mr-2"></i>
-                    <span>Consider the developer's workload before assigning</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-mint mt-1 mr-2"></i>
-                    <span>Match ticket complexity with developer expertise</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-mint mt-1 mr-2"></i>
-                    <span>Provide additional context if the ticket description is incomplete</span>
-                </li>
-            </ul>
         </div>
     </div>
 @endsection

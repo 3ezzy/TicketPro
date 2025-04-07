@@ -67,7 +67,7 @@
     <!-- Client Tickets Table -->
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <div class="p-6 border-b border-gray-100">
-            <h3 class="text-xl font-semibold text-primary">Tickets Créés par Clients</h3>
+            <h3 class="text-xl font-semibold text-primary">Tickets Récents</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -92,7 +92,7 @@
                             <div class="flex items-center">
                                 <img src="https://ui-avatars.com/api/?name={{ urlencode($ticket->user->firstName . ' ' . $ticket->user->lastName) }}&background=05BFDB&color=0A4D68"
                                     alt="Client" class="w-8 h-8 rounded-full border-2 border-mint">
-                                <span class="ml-2 text-sm text-gray-700">{{ $ticket->user->name }}</span>
+                                <span class="ml-2 text-sm text-gray-700">{{ $ticket->user->firstName }} {{ $ticket->user->lastName }}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-700">{{ $ticket->software->name ?? 'N/A' }}</td>
@@ -111,6 +111,8 @@
                                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Ouvert</span>
                             @elseif($ticket->status == 'in_progress')
                                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-mint bg-opacity-20 text-secondary">En cours</span>
+                            @elseif($ticket->status == 'pending_approval')
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">En attente</span>
                             @elseif($ticket->status == 'closed')
                                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Résolu</span>
                             @else
@@ -119,15 +121,10 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex space-x-3">
-                                {{-- <button class="text-secondary hover:text-primary transition duration-150">
-                                    <i class="fas fa-edit"></i>
-                                </button> --}}
-                                <a href="{{ route('assignments.create', $ticket->id) }}" class="text-mint hover:text-primary transition duration-150">
-                                    <i class="fas fa-check-circle"></i>
+                                <!-- Only show view details button -->
+                                <a href="{{ route('tickets.show', $ticket->id) }}" class="text-mint hover:text-primary transition duration-150" title="Voir détails">
+                                    <i class="fas fa-eye"></i>
                                 </a>
-                                <button class="text-red-500 hover:text-red-700 transition duration-150">
-                                    <i class="fas fa-trash"></i>
-                                </button>
                             </div>
                         </td>
                     </tr>
@@ -135,7 +132,7 @@
                     <tr>
                         <td colspan="8" class="px-6 py-10 text-center text-gray-500">
                             <i class="fas fa-ticket-alt text-mint text-xl mb-3 block"></i>
-                            <p>Aucun ticket client trouvé</p>
+                            <p>Aucun ticket trouvé</p>
                         </td>
                     </tr>
                     @endforelse

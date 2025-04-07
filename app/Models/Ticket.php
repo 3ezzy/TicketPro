@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Assignment;
 
 class Ticket extends Model
 {
@@ -36,4 +37,18 @@ class Ticket extends Model
             $q->where('role', 'client');
         });
     }
+    public function resolution()
+{
+    return $this->hasOne(TicketResolution::class);
+}
+
+/**
+ * Get the assignments for this ticket.
+ */
+public function assignments()
+{
+    return $this->hasMany(Assignment::class);
+}
+
+
 }

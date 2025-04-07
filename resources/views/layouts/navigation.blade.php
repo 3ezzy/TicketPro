@@ -9,43 +9,67 @@
 
             <!-- Navigation Links -->
             <div class="hidden md:flex space-x-8">
-                <a href="#"
-                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-secondary text-mint-light">
+                <a href="{{ route('dashboard') }}"
+                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium 
+                    {{ request()->routeIs('dashboard') ? 'bg-secondary text-mint-light' : 'hover:bg-secondary hover:text-mint-light transition duration-150' }}">
                     <i class="fas fa-home mr-2"></i>
                     Tableau de bord
                 </a>
-                <a href="tickets.html"
-                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-mint-light transition duration-150">
+                <a href="{{ route('tickets.index') }}"
+                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium 
+                    {{ request()->routeIs('tickets.*') ? 'bg-secondary text-mint-light' : 'hover:bg-secondary hover:text-mint-light transition duration-150' }}">
                     <i class="fas fa-ticket-alt mr-2"></i>
                     Tickets
                 </a>
-                <a href="developers.html"
-                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-mint-light transition duration-150">
+                <a href="{{ route('developers.index') }}"
+                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium 
+                    {{ request()->routeIs('developers.*') && !request()->routeIs('developers.my-tickets') && !request()->routeIs('developers.pending-approvals') ? 'bg-secondary text-mint-light' : 'hover:bg-secondary hover:text-mint-light transition duration-150' }}">
                     <i class="fas fa-users mr-2"></i>
                     Développeurs
                 </a>
-                <a href="reports.html"
-                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-mint-light transition duration-150">
-                    <i class="fas fa-chart-bar mr-2"></i>
-                    Rapports
+                
+                @if(auth()->user()->role === 'developer')
+                <a href="{{ route('developers.my-tickets') }}"
+                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium 
+                    {{ request()->routeIs('developers.my-tickets') ? 'bg-secondary text-mint-light' : 'hover:bg-secondary hover:text-mint-light transition duration-150' }}">
+                    <i class="fas fa-tasks mr-2"></i>
+                    Mes Tickets
                 </a>
+                @endif
+                
+                @if(auth()->user()->role === 'admin')
+                <a href="{{ route('assignments.index') }}"
+                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium 
+                    {{ request()->routeIs('assignments.*') ? 'bg-secondary text-mint-light' : 'hover:bg-secondary hover:text-mint-light transition duration-150' }}">
+                    <i class="fas fa-clipboard-check mr-2"></i>
+                    Affectations
+                </a>
+                
+                @php
+                    $pendingCount = \App\Models\Ticket::where('status', 'pending_approval')->count();
+                @endphp
+                
+                <a href="{{ route('developers.pending-approvals') }}"
+                    class="flex items-center px-3 py-2 rounded-md text-sm font-medium 
+                    {{ request()->routeIs('developers.pending-approvals') ? 'bg-secondary text-mint-light' : 'hover:bg-secondary hover:text-mint-light transition duration-150' }}">
+                    <i class="fas fa-check-double mr-2"></i>
+                    Approvals
+                    @if($pendingCount > 0)
+                    <span class="ml-2 px-2 py-0.5 text-xs rounded-full bg-mint text-primary">{{ $pendingCount }}</span>
+                    @endif
+                </a>
+                @endif
             </div>
 
             <!-- Right Side Items -->
             <div class="flex items-center space-x-4">
-                <!-- Current DateTime -->
-                {{-- <div class="hidden md:flex flex-col text-sm text-mint-light">
-                    <span class="text-xs">2025-02-24</span>
-                    <span class="text-xs">16:21:00 UTC</span>
-                </div> --}}
-
                 <!-- User Profile with Dropdown -->
                 <div class="relative group">
                     <button
                         class="flex items-center space-x-2 text-mint-light hover:text-white transition-all duration-300">
                         <span class="text-sm">{{ auth()->user()->lastName }} {{ auth()->user()->firstName }}</span>
                         <div class="relative">
-                            <img src="https://ui-avatars.com/api/?name{{ auth()->user()->lastName }}&{{ auth()->user()->firstName }}&background=05BFDB&color=0A4D68"
+                            <img src="https://ui-avatars.com/api/?name={{ auth()->user()->lastName }}&{{ auth()->user()->firstName }}&background=05BFDB&color=0A4D68"
                                 alt="Profile" class="w-8 h-8 rounded-full border-2 border-mint">
                             <div
                                 class="absolute -bottom-1 -right-1 w-3 h-3 bg-mint-light rounded-full border-2 border-primary">
